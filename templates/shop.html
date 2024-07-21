@@ -204,27 +204,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9">
-                        <div class="row g-4 justify-content-center">
-                            {% for shop in shoppes %}
-                                <div class="col-md-6 col-lg-6 col-xl-4">
-                                    <div class="rounded position-relative fruite-item">
-                                        <div class="fruite-img">
-                                            <img src="{{ shop.image.url }}" class="img-fluid w-100 rounded-top" alt="">
-                                        </div>
-                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                            <h4>{{ shop.title }}</h4>
-                                            <p>{{ shop.description }}</p>
-                                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                                <p class="text-dark fs-5 fw-bold mb-0">{{ shop.price }} $ / kg</p>
-                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                            </div>
+                               <div class="col-lg-9">
+                    <div class="row g-4 justify-content-center">
+                        {% for shop in shoppes %}
+                            <div class="col-md-6 col-lg-6 col-xl-4">
+                                <div class="rounded position-relative fruite-item">
+                                    <div class="fruite-img">
+                                        <img src="{{ shop.image.url }}" class="img-fluid w-100 rounded-top" alt="">
+                                    </div>
+                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                        {% for category in shop.category.all %}
+                                            {{ category.title }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                        <h4>{{ shop.title }}</h4>
+                                        <p>{{ shop.description }}</p>
+                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                            <p class="text-dark fs-5 fw-bold mb-0">{{ shop.price }} $ / kg</p>
+                                            <a href="{% url 'add_to_cart' shop.id %}" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            {% endfor %}
-                        </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
                         <div class="col-12">
                             <div class="pagination d-flex justify-content-center mt-5">
                                 <a href="#" class="rounded">&laquo;</a>

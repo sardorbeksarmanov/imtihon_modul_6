@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Category(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -8,6 +9,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Shop(models.Model):
     title = models.CharField(max_length=200)
@@ -20,6 +22,7 @@ class Shop(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Shop_Detail(models.Model):
     title = models.CharField(max_length=200)
