@@ -1,5 +1,5 @@
 from django.forms import Form, ModelForm, CharField, TextInput, PasswordInput, Textarea, EmailField, EmailInput
-
+from django import forms
 
 class RegisterForm(Form):
     first_name = CharField(label='First name', widget=TextInput(attrs={'id': 'first_name'}))
@@ -13,3 +13,7 @@ class RegisterForm(Form):
 class LoginForm(Form):
     username = CharField(label='Username', widget=TextInput(attrs={'id': 'username'}))
     password = CharField(label='Password', widget=PasswordInput(attrs={'id': 'password'}))
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=100, required=False, label='Search')

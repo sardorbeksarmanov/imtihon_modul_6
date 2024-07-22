@@ -3,38 +3,49 @@ from django.contrib.auth import get_user_model, hashers, authenticate, login, lo
 from django.contrib import messages
 from django.views import View
 from .forms import RegisterForm, LoginForm
-from shop.models import Shop, Category, Shop_Detail
+from shop.models import Shop, Category
+from .forms import SearchForm
+
 
 def home_view(request):
     shoppes = Shop.objects.all()
     categorys = Category.objects.all()
-    shop_details = Shop_Detail.objects.all()
+
     context = {
         "shoppes": shoppes,
         "categorys": categorys,
-        "shop_details": shop_details,
     }
     return render(request, 'index.html', context)
 
+
 def contact_view(request):
     return render(request, 'contact.html')
+
 
 def shop_view(request):
     shoppes = Shop.objects.all()
     return render(request, 'shop.html', {'shoppes': shoppes})
 
+
 def testimonial_view(request):
     return render(request, 'testimonial.html')
+
 
 def chackout_view(request):
     return render(request, 'chackout.html')
 
+
 def cart_view(request):
     return render(request, 'cart.html')
 
-def shop_detail_view(request):
-    shop_details = Shop_Detail.objects.all()
-    return render(request, 'shop_detail.html', {'shop_details': shop_details})
+
+def search_view(request):
+    form = SearchForm(request.GET)
+    query = request.GET.get('query')
+    results = []
+    if query:
+        results = Shop.objects.filter(title__icontains=query) | Shop.objects.filter(slug__icontains=query)
+    return render(request, 'search_results.html', {'form': form, 'results': results, 'query': query})
 
 
 User = get_user_model()
@@ -111,3 +122,11 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('/')
+
+
+class Search(View):
+    def get(self, request):
+        name = request.GET.get('Q', '')
+        product1 = Shop.objects.filter(title__icontains=name)
+        print(product1)
+        return render(request, '/')

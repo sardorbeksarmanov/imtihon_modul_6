@@ -1,8 +1,11 @@
 from django.db import models
+
+from app.views import User
 from shop.models import Shop
 
 
 class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Shop, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='cart/')
     quantity = models.PositiveIntegerField(default=1)
